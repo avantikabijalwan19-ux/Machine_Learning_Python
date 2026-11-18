@@ -1,9 +1,10 @@
 """
 Practical: Image Compression and Reconstruction using PCA (Singular Value Decomposition)
 Description:
-    Loads a grayscale image ('images.jpg'), centers it, and applies PCA via SVD (X = U * S * V^T).
-    Reconstructs the image using top K principal components (K = 100, 50, 20, 10, 5).
+    Loads a grayscale image, centers it, and applies PCA via SVD (X = U * S * V^T).
+    Reconstructs the image using top K principal components.
     Calculates Mean Squared Error (MSE), Percentage of Variance Retained, and saves the visual comparison.
+    Accepts user input for image path and K component list.
 """
 
 import os
@@ -27,17 +28,28 @@ def main():
     print("      IMAGE COMPRESSION & RECONSTRUCTION USING PCA (SVD)")
     print("=" * 65)
 
-    img_path = find_image_file()
+    default_img = find_image_file()
+    raw_path = input(f"Enter image path [default: {default_img}]: ").strip()
+    img_path = raw_path if (raw_path and os.path.exists(raw_path)) else default_img
 
-    if not img_path:
-        print("Error: 'images.jpg' (or 'iamges.jpg') not found. Please provide an image file.")
+    if not img_path or not os.path.exists(img_path):
+        print("Error: Image file not found. Please provide a valid image file.")
         return
+
+    raw_k = input("Enter K components (comma-separated) [default: 100, 50, 20, 10, 5]: ").strip()
+    if raw_k:
+        try:
+            k_values = [int(p) for p in raw_k.replace(",", " ").split()]
+        except ValueError:
+            k_values = [100, 50, 20, 10, 5]
+    else:
+        k_values = [100, 50, 20, 10, 5]
 
     SIZE = 256
     img = Image.open(img_path).convert("L").resize((SIZE, SIZE))
     image = np.array(img, dtype=float)
 
-    print(f"Loaded image: {img_path}")
+    print(f"\nLoaded image: {img_path}")
     print(f"Resolution  : {image.shape[0]} x {image.shape[1]} pixels\n")
 
     # Step 1: Center image
@@ -49,48 +61,54 @@ def main():
     total_variance = np.sum(S ** 2)
 
     # Step 3: Reconstruction across various K values
-    k_values = [100, 50, 20, 10, 5]
     print(f"{'K Components':<15} {'MSE Loss':<15} {'Variance Retained (%)':<25} {'Compression Ratio':<20}")
     print("-" * 75)
 
     results = []
     for k in k_values:
-        U_k = U[:, :k]
-        S_k = S[:k]
-        VT_k = VT[:k, :]
+        k_clamped = min(k, SIZE)
+        U_k = U[:, :k_clamped]
+        S_k = S[:k_clamped]
+        VT_k = VT[:k_clamped, :]
 
         reconstructed = (U_k * S_k) @ VT_k + mean
         reconstructed = np.clip(reconstructed, 0, 255)
 
         mse = np.mean((image - reconstructed) ** 2)
-        variance_ratio = (np.sum(S[:k] ** 2) / total_variance) * 100
-        compression = (SIZE * SIZE) / (k * (2 * SIZE + 1))
+        variance_ratio = (np.sum(S[:k_clamped] ** 2) / total_variance) * 100
+        compression = (SIZE * SIZE) / (k_clamped * (2 * SIZE + 1))
 
-        print(f"{k:<15} {mse:<15.2f} {variance_ratio:<25.2f} {compression:<20.2f}x")
-        results.append((k, reconstructed, mse, variance_ratio))
+        print(f"{k_clamped:<15} {mse:<15.2f} {variance_ratio:<25.2f} {compression:<20.2f}x")
+        results.append((k_clamped, reconstructed, mse, variance_ratio))
 
     print("=" * 75)
 
     # Optional visual comparison plot
     try:
         import matplotlib
-        matplotlib.use('Agg')  # Headless-safe backend
+        matplotlib.use('Agg')
         import matplotlib.pyplot as plt
 
-        fig, axes = plt.subplots(2, 3, figsize=(14, 9))
-        axes[0, 0].imshow(image, cmap="gray", vmin=0, vmax=255)
-        axes[0, 0].set_title(f"Original Image ({SIZE}x{SIZE})")
+        num_plots = len(results) + 1
+        cols = 3
+        rows = (num_plots + cols - 1) // cols
+
+        fig, axes = plt.subplots(rows, cols, figsize=(14, 4 * rows))
+        axes_flat = axes.flat if hasattr(axes, 'flat') else [axes]
+
+        axes_flat[0].imshow(image, cmap="gray", vmin=0, vmax=255)
+        axes_flat[0].set_title(f"Original Image ({SIZE}x{SIZE})")
 
         for i, (k, recon, mse, var_pct) in enumerate(results):
-            ax = axes.flat[i + 1]
+            ax = axes_flat[i + 1]
             ax.imshow(recon, cmap="gray", vmin=0, vmax=255)
             ax.set_title(f"K = {k}\nMSE = {mse:.1f} | Var = {var_pct:.1f}%")
 
-        for ax in axes.flat:
+        for ax in axes_flat:
             ax.axis("off")
 
         output_plot = os.path.join(os.path.dirname(__file__), "pca_reconstruction_images.png")
-        plt.suptitle("PCA Image Reconstruction across K Components (images.jpg)", fontsize=15)
+        plt.suptitle("PCA Image Reconstruction across K Components", fontsize=15)
         plt.tight_layout()
         plt.savefig(output_plot, dpi=150)
         print(f"\nVisual comparison saved as: {output_plot}")

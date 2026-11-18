@@ -134,7 +134,7 @@ Machine learning models learn patterns directly from data. This practical collec
 
 ## 🚀 How to Run
 
-Execute any script directly in Python 3:
+Execute any script directly in Python 3. Each script provides interactive prompts for user input (custom training data, queries, and parameters), while also offering sensible defaults if you press `Enter`:
 
 ```bash
 # 1. Regression

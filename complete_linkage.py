@@ -5,13 +5,23 @@ Description:
     (Complete Linkage):
     D(C1, C2) = max { dist(p1, p2) | p1 in C1, p2 in C2 }
     Produces compact, tightly bound spherical clusters.
+    Accepts interactive user input for data points and target number of clusters K.
 """
-
-data = [1, 2, 8, 9]
-target_k = 2
 
 def distance(a, b):
     return abs(a - b)
+
+def parse_float_list(prompt_text, default_list):
+    default_str = ", ".join(str(val) for val in default_list)
+    raw = input(f"{prompt_text} [default: {default_str}]: ").strip()
+    if not raw:
+        return default_list
+    try:
+        parts = raw.replace(",", " ").split()
+        return [float(p) for p in parts]
+    except ValueError:
+        print("  Invalid format. Using default values.")
+        return default_list
 
 def complete_linkage_distance(c1, c2):
     return max(distance(p1, p2) for p1 in c1 for p2 in c2)
@@ -20,7 +30,7 @@ def hierarchical_complete_linkage(points, k):
     clusters = [[p] for p in points]
     step = 1
 
-    print(f"Initial Clusters: {clusters}\n")
+    print(f"\nInitial Clusters: {clusters}\n")
 
     while len(clusters) > k:
         min_dist = float("inf")
@@ -49,8 +59,18 @@ def main():
     print("=" * 60)
     print("  HIERARCHICAL CLUSTERING: COMPLETE LINKAGE (MAX DISTANCE)")
     print("=" * 60)
+
+    data = parse_float_list("Enter data points", [1, 2, 8, 9])
+    raw_k = input("Enter target number of clusters K [default: 2]: ").strip()
+    try:
+        target_k = int(raw_k) if raw_k else 2
+        target_k = max(1, min(target_k, len(data)))
+    except ValueError:
+        target_k = 2
+
+    print("\n" + "-" * 60)
     print(f"Data Points : {data}")
-    print(f"Target K    : {target_k}\n")
+    print(f"Target K    : {target_k}")
 
     final_clusters = hierarchical_complete_linkage(data, target_k)
 
@@ -60,4 +80,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

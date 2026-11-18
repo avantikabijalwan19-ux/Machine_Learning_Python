@@ -9,23 +9,10 @@ Description:
       - 0: Unvisited
       - -1: Noise / Outlier
       - >= 1: Cluster identifier
+    Accepts interactive user input for 2D points, eps radius, and MinPts.
 """
 
 import math
-
-# 2D points including clusters and an isolated outlier
-points = [
-    [1, 1],
-    [1, 2],
-    [2, 1],
-    [8, 8],
-    [8, 9],
-    [9, 8],
-    [25, 25]  # Clear Outlier / Noise
-]
-
-eps = 2.0
-min_pts = 2
 
 def euclidean_dist(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
@@ -59,7 +46,7 @@ def dbscan(pts, radius, min_samples):
                 curr_neighbor = queue.pop(0)
 
                 if labels[curr_neighbor] == -1:
-                    labels[curr_neighbor] = cluster_id  # Border point salvaged from noise
+                    labels[curr_neighbor] = cluster_id
 
                 if labels[curr_neighbor] != 0:
                     continue
@@ -75,6 +62,48 @@ def main():
     print("=" * 65)
     print("      DBSCAN DENSITY-BASED CLUSTERING FROM SCRATCH")
     print("=" * 65)
+
+    default_points = [
+        [1.0, 1.0],
+        [1.0, 2.0],
+        [2.0, 1.0],
+        [8.0, 8.0],
+        [8.0, 9.0],
+        [9.0, 8.0],
+        [25.0, 25.0]
+    ]
+
+    choice = input("Do you want to enter custom 2D points? (y/n) [default: n]: ").strip().lower()
+    if choice == 'y':
+        try:
+            n_pts = int(input("Enter number of points [default: 7]: ").strip() or "7")
+            print("Enter each point as 'x y' (e.g., 1.5 2.5):")
+            custom_pts = []
+            for i in range(n_pts):
+                raw = input(f"  Point {i + 1}: ").strip().replace(",", " ")
+                parts = [float(p) for p in raw.split()]
+                if len(parts) >= 2:
+                    custom_pts.append(parts[:2])
+            points = custom_pts if len(custom_pts) >= 1 else default_points
+        except Exception as e:
+            print(f"Invalid input ({e}). Using default points.")
+            points = default_points
+    else:
+        points = default_points
+
+    raw_eps = input("Enter epsilon radius (eps) [default: 2.0]: ").strip()
+    try:
+        eps = float(raw_eps) if raw_eps else 2.0
+    except ValueError:
+        eps = 2.0
+
+    raw_min_pts = input("Enter MinPts [default: 2]: ").strip()
+    try:
+        min_pts = int(raw_min_pts) if raw_min_pts else 2
+    except ValueError:
+        min_pts = 2
+
+    print("\n" + "-" * 65)
     print(f"Parameters: Epsilon (eps) = {eps}, MinPts = {min_pts}\n")
 
     labels = dbscan(points, eps, min_pts)
@@ -97,4 +126,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

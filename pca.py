@@ -6,24 +6,48 @@ Description:
       2. Computes the Covariance Matrix.
       3. Solves for Eigenvalues and Eigenvectors.
       4. Projects data onto the top principal components.
+    Accepts interactive user input for 2D data points.
 """
 
 import math
-
-# 2D dataset
-data = [
-    [2.0, 4.0],
-    [4.0, 8.0],
-    [6.0, 12.0],
-    [8.0, 16.0],
-    [10.0, 19.0]
-]
 
 def main():
     print("=" * 65)
     print("      PRINCIPAL COMPONENT ANALYSIS (PCA) FROM SCRATCH")
     print("=" * 65)
+
+    default_data = [
+        [2.0, 4.0],
+        [4.0, 8.0],
+        [6.0, 12.0],
+        [8.0, 16.0],
+        [10.0, 19.0]
+    ]
+
+    choice = input("Do you want to enter custom 2D data points? (y/n) [default: n]: ").strip().lower()
+    if choice == 'y':
+        try:
+            n_pts = int(input("Enter number of samples [default: 5]: ").strip() or "5")
+            print("Enter each point as 'x y' (e.g., 2.0 4.0):")
+            custom_data = []
+            for i in range(n_pts):
+                raw = input(f"  Sample {i + 1}: ").strip().replace(",", " ")
+                parts = [float(p) for p in raw.split()]
+                if len(parts) >= 2:
+                    custom_data.append(parts[:2])
+            if len(custom_data) >= 2:
+                data = custom_data
+            else:
+                print("At least 2 points required. Using default data.")
+                data = default_data
+        except Exception as e:
+            print(f"Invalid input ({e}). Using default data.")
+            data = default_data
+    else:
+        data = default_data
+
     n = len(data)
+    print("\n" + "-" * 65)
     print(f"Original Dataset ({n} samples, 2 dimensions):")
     for row in data:
         print(f"  {row}")
@@ -36,7 +60,6 @@ def main():
     print(f"\nFeature Means: X = {mean_x:.2f}, Y = {mean_y:.2f}")
 
     # Step 2: Covariance Matrix
-    # Cov(X, X) = a, Cov(X, Y) = b, Cov(Y, Y) = d
     var_x = sum(r[0] ** 2 for r in centered) / (n - 1)
     cov_xy = sum(r[0] * r[1] for r in centered) / (n - 1)
     var_y = sum(r[1] ** 2 for r in centered) / (n - 1)
@@ -46,8 +69,6 @@ def main():
     print(f"  [{cov_xy:>8.2f}, {var_y:>8.2f}]")
 
     # Step 3: Analytical Eigenvalue calculation for 2x2 matrix
-    # Characteristic equation: det(A - lambda*I) = 0
-    # lambda^2 - Trace*lambda + Det = 0
     trace = var_x + var_y
     det = (var_x * var_y) - (cov_xy ** 2)
 
@@ -59,11 +80,12 @@ def main():
     print(f"  Lambda 1 (Principal): {lambda1:.4f}")
     print(f"  Lambda 2            : {lambda2:.4f}")
 
-    # Step 4: Eigenvector for Lambda 1: (A - lambda1*I) * v = 0
-    # (var_x - lambda1)*v1 + cov_xy*v2 = 0  -->  v = [cov_xy, lambda1 - var_x] normalized
+    # Step 4: Eigenvector for Lambda 1
     v1_raw = cov_xy
     v2_raw = lambda1 - var_x
     norm = math.sqrt(v1_raw ** 2 + v2_raw ** 2)
+    if norm == 0:
+        norm = 1.0
     e1 = [v1_raw / norm, v2_raw / norm]
 
     print(f"\nPrincipal Eigenvector (Direction of maximum variance):")
@@ -75,11 +97,11 @@ def main():
         pc1_val = c[0] * e1[0] + c[1] * e1[1]
         print(f"  Original: {orig}  -->  PC1: {pc1_val:>8.3f}")
 
-    variance_explained = (lambda1 / (lambda1 + lambda2)) * 100
+    total_var = lambda1 + lambda2
+    variance_explained = (lambda1 / total_var) * 100 if total_var > 0 else 0.0
     print("-" * 65)
     print(f"Explained Variance Ratio by PC1: {variance_explained:.2f}%")
     print("=" * 65)
 
 if __name__ == "__main__":
     main()
-
