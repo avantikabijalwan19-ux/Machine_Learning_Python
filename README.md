@@ -49,7 +49,7 @@ Machine learning models learn patterns directly from data. This practical collec
 | `knn.py` | Supervised - Both | Instance-based learning for classification (majority vote) and regression (mean). |
 | `decision_trees.py` | Supervised - Classification | Evaluates candidate split thresholds using weighted Gini Impurity. |
 | `random_forest.py` | Supervised - Ensemble | Bootstrap sampling with replacement (Bagging) and majority voting ensemble. |
-| `naive_bayes.py` / `naive_baeyes.py` | Supervised - Classification | Evaluates class posterior probabilities assuming conditional feature independence. |
+| `naive_bayes.py` | Supervised - Classification | Evaluates class posterior probabilities assuming conditional feature independence. |
 | `k_means.py` | Unsupervised - Clustering | Iterative centroid assignment and cluster mean updates. |
 | `k_medoid.py` | Unsupervised - Clustering | Centroids restricted to actual dataset members (robust to outliers). |
 | `single_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on minimum pairwise distance between members. |

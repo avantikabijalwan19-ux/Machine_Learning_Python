@@ -1,12 +1,10 @@
 """
 Practical: Principal Component Analysis (PCA) from Scratch
-Description:
     Reduces feature dimensionality while preserving maximum data variance:
       1. Centers data around the feature means.
       2. Computes the Covariance Matrix.
       3. Solves for Eigenvalues and Eigenvectors.
       4. Projects data onto the top principal components.
-    Accepts interactive user input for 2D data points.
 """
 
 import math
