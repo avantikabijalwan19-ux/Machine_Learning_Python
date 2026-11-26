@@ -12,11 +12,12 @@ import numpy as np
 from PIL import Image
 
 def find_image_file():
+    assets_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "images")
     candidates = [
+        os.path.join(assets_dir, "images.jpg"),
+        os.path.join(assets_dir, "iamges.jpg"),
         "images.jpg",
         "iamges.jpg",
-        os.path.join(os.path.dirname(__file__), "images.jpg"),
-        os.path.join(os.path.dirname(__file__), "iamges.jpg"),
     ]
     for c in candidates:
         if os.path.exists(c):
@@ -107,7 +108,9 @@ def main():
         for ax in axes_flat:
             ax.axis("off")
 
-        output_plot = os.path.join(os.path.dirname(__file__), "pca_reconstruction_images.png")
+        output_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "outputs")
+        os.makedirs(output_dir, exist_ok=True)
+        output_plot = os.path.join(output_dir, "pca_reconstruction_images.png")
         plt.suptitle("PCA Image Reconstruction across K Components", fontsize=15)
         plt.tight_layout()
         plt.savefig(output_plot, dpi=150)

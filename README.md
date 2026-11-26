@@ -36,29 +36,40 @@ Machine learning models learn patterns directly from data. This practical collec
 - **Deep Learning:**
   - Multi-Layer Perceptron (2-2-1) with Forward Pass, Backpropagation, and Gradient Descent.
 
+## 📁 Repository Structure
+
+- `supervised_learning/regression/`: Linear, multiple, and polynomial regression.
+- `supervised_learning/classification/`: Logistic regression, KNN, decision trees, and Naive Bayes.
+- `supervised_learning/ensemble/`: Random forest.
+- `unsupervised_learning/clustering/`: Partition-based, hierarchical, and density-based clustering.
+- `dimensionality_reduction/`: PCA examples, including image compression.
+- `deep_learning/`: Neural network practical.
+- `assets/images/`: Source images used by practicals.
+- `assets/outputs/`: Generated and example output plots.
+
 ---
 
 ## 🗂 Practicals Index
 
 | File Name | Domain | Technique / Core Idea |
 |---|---|---|
-| `linear_regression.py` | Supervised - Regression | Ordinary Least Squares (OLS) closed-form formula for line slope and intercept. |
-| `multiple_regression.py` | Supervised - Regression | Batch Gradient Descent optimization across multi-feature datasets. |
-| `polynomial_regression.py` | Supervised - Regression | Fits non-linear polynomial curves $y = \sum w_j x^j$ using gradient descent. |
-| `logistic_regression.py` | Supervised - Classification | Binary classification via Sigmoid activation and cross-entropy gradient updates. |
-| `knn.py` | Supervised - Both | Instance-based learning for classification (majority vote) and regression (mean). |
-| `decision_trees.py` | Supervised - Classification | Evaluates candidate split thresholds using weighted Gini Impurity. |
-| `random_forest.py` | Supervised - Ensemble | Bootstrap sampling with replacement (Bagging) and majority voting ensemble. |
-| `naive_bayes.py` | Supervised - Classification | Evaluates class posterior probabilities assuming conditional feature independence. |
-| `k_means.py` | Unsupervised - Clustering | Iterative centroid assignment and cluster mean updates. |
-| `k_medoid.py` | Unsupervised - Clustering | Centroids restricted to actual dataset members (robust to outliers). |
-| `single_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on minimum pairwise distance between members. |
-| `complete_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on maximum pairwise distance between members. |
-| `average_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on mean pairwise distance between members. |
-| `dbscan.py` | Unsupervised - Clustering | Density-based spatial clustering identifying core points, border points, and noise. |
-| `pca.py` | Dimensionality Reduction | Mean centering, covariance matrix, analytical eigenvalues/eigenvectors. |
-| `pca_image.py` | Dimensionality Reduction | SVD-based grayscale image compression ($K = 100, 50, 20, 10, 5$). |
-| `neural_network.py` | Deep Learning | 2-Layer Neural Network with Sigmoid activation, MSE loss, and Backpropagation. |
+| `supervised_learning/regression/linear_regression.py` | Supervised - Regression | Ordinary Least Squares (OLS) closed-form formula for line slope and intercept. |
+| `supervised_learning/regression/multiple_regression.py` | Supervised - Regression | Batch Gradient Descent optimization across multi-feature datasets. |
+| `supervised_learning/regression/polynomial_regression.py` | Supervised - Regression | Fits non-linear polynomial curves $y = \sum w_j x^j$ using gradient descent. |
+| `supervised_learning/classification/logistic_regression.py` | Supervised - Classification | Binary classification via Sigmoid activation and cross-entropy gradient updates. |
+| `supervised_learning/classification/knn.py` | Supervised - Both | Instance-based learning for classification (majority vote) and regression (mean). |
+| `supervised_learning/classification/decision_trees.py` | Supervised - Classification | Evaluates candidate split thresholds using weighted Gini Impurity. |
+| `supervised_learning/ensemble/random_forest.py` | Supervised - Ensemble | Bootstrap sampling with replacement (Bagging) and majority voting ensemble. |
+| `supervised_learning/classification/naive_bayes.py` | Supervised - Classification | Evaluates class posterior probabilities assuming conditional feature independence. |
+| `unsupervised_learning/clustering/k_means.py` | Unsupervised - Clustering | Iterative centroid assignment and cluster mean updates. |
+| `unsupervised_learning/clustering/k_medoid.py` | Unsupervised - Clustering | Centroids restricted to actual dataset members (robust to outliers). |
+| `unsupervised_learning/clustering/single_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on minimum pairwise distance between members. |
+| `unsupervised_learning/clustering/complete_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on maximum pairwise distance between members. |
+| `unsupervised_learning/clustering/average_linkage.py` | Unsupervised - Hierarchical | Merges clusters based on mean pairwise distance between members. |
+| `unsupervised_learning/clustering/dbscan.py` | Unsupervised - Clustering | Density-based spatial clustering identifying core points, border points, and noise. |
+| `dimensionality_reduction/pca.py` | Dimensionality Reduction | Mean centering, covariance matrix, analytical eigenvalues/eigenvectors. |
+| `dimensionality_reduction/pca_image.py` | Dimensionality Reduction | SVD-based grayscale image compression ($K = 100, 50, 20, 10, 5$). |
+| `deep_learning/neural_network.py` | Deep Learning | 2-Layer Neural Network with Sigmoid activation, MSE loss, and Backpropagation. |
 
 ---
 
@@ -104,22 +115,22 @@ Machine learning models learn patterns directly from data. This practical collec
 
 ## 📖 Detailed Script Descriptions
 
-1. **`linear_regression.py`**: Computes best-fit line parameters analytically using closed-form least-squares equations.
-2. **`multiple_regression.py`**: Optimizes multi-variable weights and bias via batch gradient descent.
-3. **`polynomial_regression.py`**: Models non-linear data distributions with configurable polynomial degrees.
-4. **`logistic_regression.py`**: Demonstrates probabilistic binary classification using the sigmoid activation function.
-5. **`knn.py`**: Classifies job levels and estimates salaries based on proximity to nearest neighbors.
-6. **`decision_trees.py`**: Evaluates all candidate splits across hours studied to find the minimum Gini impurity.
-7. **`random_forest.py`**: Implements ensemble bootstrap sampling (bagging) with 5 independent tree estimators and majority voting.
-8. **`naive_bayes.py`**: Evaluates whether a customer buys a computer using historical conditional probabilities.
-9. **`k_means.py`**: Iteratively partitions 2D data points into $K=2$ clusters with centroid convergence tracking.
-10. **`k_medoid.py`**: Groups data around actual dataset members, minimizing intra-cluster absolute distances.
-11. **`single_linkage.py`**: Step-by-step agglomerative clustering merging clusters with shortest gap.
-12. **`complete_linkage.py`**: Agglomerative clustering merging clusters with smallest maximum diameter.
-13. **`average_linkage.py`**: Agglomerative clustering merging clusters with lowest mean inter-point distance.
-14. **`dbscan.py`**: Density clustering with $\epsilon$ and $MinPts$, identifying clusters and isolating noise points.
-15. **`pca.py`**: 2D feature projection calculating covariance matrices, eigenvalues, and principal vectors from scratch.
-16. **`pca_image.py`**: Real-world SVD image reconstruction of `images.jpg` across $K = 100, 50, 20, 10, 5$ components, calculating MSE, compression ratio, and variance retained. Output saved as `pca_reconstruction_images.png`.
+1. **`supervised_learning/regression/linear_regression.py`**: Computes best-fit line parameters analytically using closed-form least-squares equations.
+2. **`supervised_learning/regression/multiple_regression.py`**: Optimizes multi-variable weights and bias via batch gradient descent.
+3. **`supervised_learning/regression/polynomial_regression.py`**: Models non-linear data distributions with configurable polynomial degrees.
+4. **`supervised_learning/classification/logistic_regression.py`**: Demonstrates probabilistic binary classification using the sigmoid activation function.
+5. **`supervised_learning/classification/knn.py`**: Classifies job levels and estimates salaries based on proximity to nearest neighbors.
+6. **`supervised_learning/classification/decision_trees.py`**: Evaluates all candidate splits across hours studied to find the minimum Gini impurity.
+7. **`supervised_learning/ensemble/random_forest.py`**: Implements ensemble bootstrap sampling (bagging) with 5 independent tree estimators and majority voting.
+8. **`supervised_learning/classification/naive_bayes.py`**: Evaluates whether a customer buys a computer using historical conditional probabilities.
+9. **`unsupervised_learning/clustering/k_means.py`**: Iteratively partitions 2D data points into $K=2$ clusters with centroid convergence tracking.
+10. **`unsupervised_learning/clustering/k_medoid.py`**: Groups data around actual dataset members, minimizing intra-cluster absolute distances.
+11. **`unsupervised_learning/clustering/single_linkage.py`**: Step-by-step agglomerative clustering merging clusters with shortest gap.
+12. **`unsupervised_learning/clustering/complete_linkage.py`**: Agglomerative clustering merging clusters with smallest maximum diameter.
+13. **`unsupervised_learning/clustering/average_linkage.py`**: Agglomerative clustering merging clusters with lowest mean inter-point distance.
+14. **`unsupervised_learning/clustering/dbscan.py`**: Density clustering with $\epsilon$ and $MinPts$, identifying clusters and isolating noise points.
+15. **`dimensionality_reduction/pca.py`**: 2D feature projection calculating covariance matrices, eigenvalues, and principal vectors from scratch.
+16. **`dimensionality_reduction/pca_image.py`**: Real-world SVD image reconstruction of `assets/images/images.jpg` across $K = 100, 50, 20, 10, 5$ components, calculating MSE, compression ratio, and variance retained. Output saved as `assets/outputs/pca_reconstruction_images.png`.
 
 | K Components | MSE Loss | Variance Retained | Compression Ratio |
 |---|---|---|---|
@@ -128,7 +139,7 @@ Machine learning models learn patterns directly from data. This practical collec
 | **K = 20** | 148.13 | 96.08% | 6.39x |
 | **K = 10** | 303.47 | 91.98% | 12.78x |
 | **K = 5** | 544.32 | 85.50% | 25.55x |
-17. **`neural_network.py`**: Two-layer backpropagation neural network trained on boolean logic gates.
+17. **`deep_learning/neural_network.py`**: Two-layer backpropagation neural network trained on boolean logic gates.
 
 ---
 
@@ -138,31 +149,31 @@ Execute any script directly in Python 3. Each script provides interactive prompt
 
 ```bash
 # 1. Regression
-python linear_regression.py
-python multiple_regression.py
-python polynomial_regression.py
+python supervised_learning/regression/linear_regression.py
+python supervised_learning/regression/multiple_regression.py
+python supervised_learning/regression/polynomial_regression.py
 
 # 2. Classification
-python logistic_regression.py
-python knn.py
-python decision_trees.py
-python random_forest.py
-python naive_bayes.py
+python supervised_learning/classification/logistic_regression.py
+python supervised_learning/classification/knn.py
+python supervised_learning/classification/decision_trees.py
+python supervised_learning/ensemble/random_forest.py
+python supervised_learning/classification/naive_bayes.py
 
 # 3. Clustering
-python k_means.py
-python k_medoid.py
-python single_linkage.py
-python complete_linkage.py
-python average_linkage.py
-python dbscan.py
+python unsupervised_learning/clustering/k_means.py
+python unsupervised_learning/clustering/k_medoid.py
+python unsupervised_learning/clustering/single_linkage.py
+python unsupervised_learning/clustering/complete_linkage.py
+python unsupervised_learning/clustering/average_linkage.py
+python unsupervised_learning/clustering/dbscan.py
 
 # 4. Dimensionality Reduction
-python pca.py
-python pca_image.py
+python dimensionality_reduction/pca.py
+python dimensionality_reduction/pca_image.py
 
 # 5. Neural Networks
-python neural_network.py
+python deep_learning/neural_network.py
 ```
 
 ---
